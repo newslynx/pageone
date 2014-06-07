@@ -5,11 +5,7 @@ _a module for polling urls and stats from homepages_
 
 ## Install
 ```bash
-mkvirtualenv pageone
-git clone https://github.com/newslnyx/pageone.git
-cd pageone
-pip install -r requirements.txt
-pip install .
+pip install pageone
 ```
 
 ## Test
