@@ -1,23 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-"""
-Strategy:
-
-* Open homepage in seleniumjs,
-* make the window size 900x1200
-* exctract all links and check if they're valid.
-* for all valid links, extract:
-* x,y coordinates
-* whether the link has an image
-* extract the headline
-* divide the page up into grids and assign each link to a grid id,
-* which moves from top left to bottom right.
-* if there is more than one instance of a link in a grid, register it as a single
-* link, and retain it's image, headline, and average position among all links.
-* return a list of json.
-"""
-
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
