@@ -170,7 +170,7 @@ class PageOne:
     # only get valid links
     url = self.get_url(link)
     if is_article_url(url):
-      if not incl_external: and self.domain not in url:
+      if not self.incl_external and self.domain not in url:
         return False
       else:
         return True
