@@ -190,7 +190,10 @@ class PageOne:
     # only get valid links
     url = self.get_url(link)
     if is_article_url(url):
-      return True
+      if not incl_external: and self.domain not in url:
+        return False
+      else:
+        return True
 
     # default to invalid
     return False
@@ -233,13 +236,15 @@ class PageOne:
     self.bucket_pixels = kwargs.get('bucket_pixels', 200)
     self.phantom_path = kwargs.get('phantom_path', '/usr/local/bin/phantomjs')
     self.visible_only = kwargs.get('visible_only', True)
-
+    self.incl_external = kwargs.get('incl_external', False)
     # open browser
     self.browser  = webdriver.PhantomJS(self.phantom_path)
     
     # open homepage
     self.get_homepage_safely()
     links = self.browser.find_elements_by_tag_name('a')
+
+    # get valid link stats
     for link in links:
       if self.valid_link(link):
         yield self.parse_link(link)
@@ -251,10 +256,14 @@ class PageOne:
 
     html = get_html(self.url)
     urls = urls_from_html(html, dedupe=True)
+
     for u in urls:
+
       if is_article_url(u):
+
         if not incl_external and self.domain in u:
           yield prepare_url(u)
+
         else:
           yield prepare_url(u)
 
