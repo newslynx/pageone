@@ -1,4 +1,4 @@
-![travis-img](https://travis-ci.org/newslnyx/pageone.svg)
+![travis-img](https://travis-ci.org/newslynx/pageone.svg)
 pageone
 ======
 _a module for polling urls and stats from homepages_
