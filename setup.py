@@ -26,7 +26,7 @@ except (IOError, ImportError):
 # setup
 setup(
   name='pageone',
-  version='0.0.9',
+  version='0.1.0',
   description='a module for polling urls and stats from homepages',
   long_description = long_description,
   classifiers=[
@@ -49,7 +49,7 @@ setup(
     "lxml==3.3.5",
     "requests==2.3.0",
     "selenium==2.42.1",
-    "siegfried==0.0.7",
+    "siegfried>=0.0.7",
     "wsgiref==0.1.2"
   ],
   tests_require=[]
