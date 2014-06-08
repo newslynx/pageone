@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
-from datetime import datetime, timedelta
+from selenium.common.exceptions import (
+  NoSuchElementException, StaleElementReferenceException, TimeoutException
+  )
+from datetime import datetime
 import socket
 import requests
 from cookielib import CookieJar as cj
@@ -10,7 +12,6 @@ from lxml import etree
 from siegfried import (
   is_article_url, prepare_url, urls_from_html, get_simple_domain
   )
-
 
 # helpers for getting static page
 def get_request_kwargs(timeout, useragent):
@@ -35,29 +36,34 @@ def get_html(url, response=None, **kwargs):
   encoding in a lot of cases.
   """
   FAIL_ENCODING = 'ISO-8859-1'
-  useragent = kwargs.get('useragent', 'NewsLynx: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:25.0) Gecko/20100101 Firefox/25.0')
+  useragent = kwargs.get('useragent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:25.0) Gecko/20100101 Firefox/25.0')
   timeout = kwargs.get('useragent', 10)
 
   if response is not None:
+    
     if response.encoding != FAIL_ENCODING:
       return response.text
+    
     return response.content # not unicode, fix later
 
   try:
     html = None
     response = requests.get(url=url, **get_request_kwargs(timeout, useragent))
+    
     if response.encoding != FAIL_ENCODING:
       html = response.text
+    
     else:
       html = response.content # not unicode, fix later
+    
     if html is None:
       html = u''
+    
     return html
 
   except Exception, e:
     print '%s on %s' % (e, url)
     return u''
-
 
 class PageoneInitError(Exception):
   pass
@@ -71,6 +77,7 @@ class PageOne:
         )
 
     self.url = kwargs.get('url')
+    self.max_tries = kwargs.get('max_tries', 10)
     self.domain = get_simple_domain(self.url)
 
   def readystate_complete(self):
@@ -99,8 +106,10 @@ class PageOne:
 
         except:
           tries += 1
+          
           if tries == self.max_tries:
             break
+        
         else:
           break
 
@@ -109,16 +118,20 @@ class PageOne:
 
   def get_url(self, link):
     url = link.get_attribute("href")
+   
     if url:
       return prepare_url(url)
+   
     else:
       return ''
 
   def get_img_data(self, link):
     try:
       img = link.find_element_by_tag_name("img")
+    
     except NoSuchElementException:
       img = None
+    
     if img is not None:
       w = int(img.get_attribute("width"))
       h = int(img.get_attribute("height"))
@@ -130,6 +143,7 @@ class PageOne:
         'img_area': w * h,
         'img_src': img.get_attribute("src")
       }
+    
     else:
       return {
         'has_img': 0,
@@ -143,15 +157,28 @@ class PageOne:
     return int(link.value_of_css_property('font-size')[:-2])
 
   def bucket_coord(self, c):
+    """
+    Simply divide the coordinate by the number of pixels 
+    per bucket.
+    """
     return int(c / self.bucket_pixels) + 1
 
-  # TODO
   def get_bucket_data(self, x, y):
-    if x == 0 and y == 0:
-      return {}
+    """
+    Assign coordinates into buckets, moving from top left
+    to bottom right.
+    """
+    if  x == 0 and y == 0:
+      return {
+        'x_bucket': None,
+        'y_bucket': None,
+        'bucket': None
+      }
+
     else:
       x_b = self.bucket_coord(x)
       y_b = self.bucket_coord(y)
+      
       return {
         'x_bucket': x_b,
         'y_bucket': y_b,
@@ -159,24 +186,35 @@ class PageOne:
       }
 
   def valid_link(self, link):
+    """
+    Validate a link
+    """
+
     # only get visible links
     if self.visible_only:
+      
       try:
+      
         if not link.is_displayed():
           return False
+      
       except (NoSuchElementException, StaleElementReferenceException):
         return False
 
     # only get valid links
     url = self.get_url(link)
-    if is_article_url(url):
+    
+    if is_article_url(url, pattern = self.pattern):
+    
       if not self.incl_external and self.domain not in url:
         return False
+    
       else:
         return True
 
     # default to invalid
     return False
+
 
   def parse_link(self, link):
     
@@ -216,7 +254,9 @@ class PageOne:
     self.bucket_pixels = kwargs.get('bucket_pixels', 200)
     self.phantom_path = kwargs.get('phantom_path', '/usr/local/bin/phantomjs')
     self.visible_only = kwargs.get('visible_only', True)
+    self.pattern = kwargs.get('pattern', None)
     self.incl_external = kwargs.get('incl_external', False)
+    
     # open browser
     self.browser  = webdriver.PhantomJS(self.phantom_path)
     
@@ -226,10 +266,14 @@ class PageOne:
 
     # get valid link stats
     for link in links:
+      
       if self.valid_link(link):
         yield self.parse_link(link)
 
-  def articles(self, incl_external=False):
+    # close browser at the end
+    self.browser.close()
+
+  def articles(self, pattern = None, incl_external=False):
     """
     Get all the article links on the homepage.
     """
@@ -239,11 +283,11 @@ class PageOne:
 
     for u in urls:
 
-      if is_article_url(u):
+      if is_article_url(u, pattern = pattern):
 
         if not incl_external and self.domain in u:
-          yield prepare_url(u)
+          yield prepare_url(u, source_url = self.url)
 
         else:
-          yield prepare_url(u)
+          yield prepare_url(u, source_url = self.url)
 

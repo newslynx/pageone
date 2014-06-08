@@ -33,7 +33,8 @@ for link in p.link_stats():
 This will return a list of dictionaries that look like this:
 
 ```python
-{'bucket': 4,
+{
+ 'bucket': 4,
  'datetime': datetime.datetime(2014, 6, 7, 16, 6, 3, 533818),
  'font_size': 13,
  'has_img': 1,
@@ -47,7 +48,21 @@ This will return a list of dictionaries that look like this:
  'x': 61,
  'x_bucket': 1,
  'y': 730,
- 'y_bucket': 4}
+ 'y_bucket': 4
+}
+```
+
+Here `bucket` variables represent where a link falls in 200x200 pixel grid.  For `x_bucket` this number moves from left-to-right. For `y_bucket`, it moves top-to-bottom.  `bucket` moves from top-left to bottom right.  You can customize the size of this grid by passing in `bucket_pixels` to `link_stats`, eg:
+
+```
+from pageone import PageOne
+
+p = PageOne(url='http://www.propublica.org/')
+
+# get stats about links positions
+for link in p.link_stats(bucket_pixels = 100):
+    print link
+
 ```
 
 To get simply get all of the article urls on a homepage, use `articles`:
@@ -67,5 +82,20 @@ from pageone import PageOne
 p = PageOne(url='http://www.propublica.org/')
 
 for article in p.articles(incl_external=True):
+  print article
+```
+
+## How do I know which urls are articles?
+`pageone` uses `[siegfried](http://github.com/newslynx/siegfried)` for url parsing and validation.  If you want to apply a custom regex for article url validation, you can pass in a pattern to either `link_stats` or `articles`, eg:
+
+```python
+from pageone import PageOne
+import re 
+
+pattern = re.compile(r'.*propublica.org/[a-z]+/[a-z0-9/-]+')
+
+p = PageOne(url='http://www.propublica.org/')
+
+for article in p.articles(pattern=pattern):
   print article
 ```
