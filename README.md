@@ -11,7 +11,7 @@ pip install pageone
 ## Test
 Requires `nose`
 
-```
+```bash
 nosetests
 ```
 
@@ -54,7 +54,7 @@ This will return a list of dictionaries that look like this:
 
 Here `bucket` variables represent where a link falls in 200x200 pixel grid.  For `x_bucket` this number moves from left-to-right. For `y_bucket`, it moves top-to-bottom.  `bucket` moves from top-left to bottom right.  You can customize the size of this grid by passing in `bucket_pixels` to `link_stats`, eg:
 
-```
+```python
 from pageone import PageOne
 
 p = PageOne(url='http://www.propublica.org/')
