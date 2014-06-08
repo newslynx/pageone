@@ -86,7 +86,7 @@ for article in p.articles(incl_external=True):
 ```
 
 ## How do I know which urls are articles?
-`pageone` uses [`siegfried`](http://github.com/newslynx/siegfried) for url parsing and validation.  If you want to apply a custom regex for article url validation, you can pass in a pattern to either `link_stats` or `articles`, eg:
+`pageone` uses [siegfried](http://github.com/newslynx/siegfried) for url parsing and validation.  If you want to apply a custom regex for article url validation, you can pass in a pattern to either `link_stats` or `articles`, eg:
 
 ```python
 from pageone import PageOne
