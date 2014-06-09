@@ -66,7 +66,7 @@ class PageOne:
     url = link.get_attribute("href")
    
     if url:
-      return prepare_url(url)
+      return prepare_url(url, source_url = self.url)
    
     else:
       return ''
@@ -101,6 +101,11 @@ class PageOne:
 
   def get_font_size(self, link):
     return int(link.value_of_css_property('font-size')[:-2])
+
+  def get_link_coords(self, link):
+    x = int(link.location['x'])
+    y = int(link.location['y'])
+    return x, y
 
   def bucket_coord(self, c):
     """
@@ -167,9 +172,9 @@ class PageOne:
     url = self.get_url(link)          
 
     # get coordinates
-    x = int(link.location['x'])
-    y = int(link.location['y'])
+    x, y = self.get_link_coords(link) 
 
+    # bucket coordinates
     bucket_dict = self.get_bucket_data(x, y)
 
     # get image
