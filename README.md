@@ -101,7 +101,7 @@ for article in p.articles(pattern=pattern):
 ```
 
 ## PhantomJS
-`pagone` requires [phantomjs](http://phantomjs.org/) to run `link_stats`.  `pagone` defaults to looking for `phantomjs` in `/usr/bin/local/phantomjs`, but if you want to specify another path, initilize `PageOne` with `phantom_path`:
+`pageone` requires [phantomjs](http://phantomjs.org/) to run `link_stats`.  `pageone` defaults to looking for `phantomjs` in `/usr/bin/local/phantomjs`, but if you want to specify another path, initilize `PageOne` with `phantom_path`:
 ```python
 from pageone import PageOne
 
