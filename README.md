@@ -101,11 +101,11 @@ for article in p.articles(pattern=pattern):
 ```
 
 ## PhantomJS
-`pageone` requires [phantomjs](http://phantomjs.org/) to run `link_stats`.  `pageone` defaults to looking for `phantomjs` in `/usr/bin/local/phantomjs`, but if you want to specify another path, initilize `PageOne` with `phantom_path`:
+`pageone` requires [phantomjs](http://phantomjs.org/) to run `link_stats`.  `pageone` defaults to looking for `phantomjs` in `/usr/bin/local/phantomjs`, but if you want to specify another path, pass in `phantom_path` to `linkstats`:
 ```python
 from pageone import PageOne
 
-p = PageOne(url='http://www.propublica.org/', phantom_path="/usr/bin/phantomjs")
-for link in p.link_stats():
+p = PageOne(url='http://www.propublica.org/')
+for link in p.link_stats(phantom_path="/usr/bin/phantomjs"):
     print link
 ```
