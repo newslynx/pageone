@@ -26,7 +26,7 @@ except (IOError, ImportError):
 # setup
 setup(
   name='pageone',
-  version='0.1.2',
+  version='0.1.3',
   description='a module for polling urls and stats from homepages',
   long_description = long_description,
   classifiers=[
