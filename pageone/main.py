@@ -221,8 +221,8 @@ class PageOne:
       if self.valid_link(link):
         yield self.parse_link(link)
 
-    # close browser at the end
-    self.browser.close()
+    # quit the browser at the end
+    self.browser.quit()
 
   def articles(self, pattern = None, incl_external=False):
     """

@@ -99,3 +99,13 @@ p = PageOne(url='http://www.propublica.org/')
 for article in p.articles(pattern=pattern):
   print article
 ```
+
+## PhantomJS
+`pagone` requires [phantomjs](http://phantomjs.org/) to run `link_stats`.  `pagone` defaults to looking for `phantomjs` in `/usr/bin/local/phantomjs`, but if you want to specify another path, initilize `PageOne` with `phantom_path`:
+```python
+from pageone import PageOne
+
+p = PageOne(url='http://www.propublica.org/', phantom_path="/usr/bin/phantomjs")
+for link in p.link_stats():
+    print link
+```
