@@ -16,7 +16,7 @@ readme = os.path.join(os.path.dirname(__file__), 'README.md')
 
 try:
   import pypandoc
-  long_description = pypandoc.convert(readme, 'rst')
+  long_description = pypandoc.convert(readme, 'rst', format="md")
 except (IOError, ImportError):
   long_description = ""
 
@@ -26,7 +26,7 @@ except (IOError, ImportError):
 # setup
 setup(
   name='pageone',
-  version='0.1.5',
+  version='0.1.6',
   description='a module for polling urls and stats from homepages',
   long_description = long_description,
   classifiers=[
