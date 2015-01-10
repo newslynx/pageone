@@ -45,7 +45,7 @@ class PageOne:
 
         try:
           self.browser.get(self.url)
-          WebDriverWait(b, 5).until(readystate_complete)
+          WebDriverWait(self.browser, 5).until(readystate_complete)
     
         except TimeoutException:
           self.browser.execute_script("window.stop();")
