@@ -1,0 +1,3 @@
+
+class PageOneError(Exception):
+    pass
