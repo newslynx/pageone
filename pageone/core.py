@@ -1,3 +1,7 @@
+"""
+The core module. Contains all log for interacting with homepage and 
+extracting stats.
+"""
 import re
 import os
 from urlparse import (
@@ -69,10 +73,12 @@ class PageOne:
             else:
                 for link in self._agg_links(**kw):
                     yield link
+
         except Exception as e:
             # quit the browser at the end
             self._stop_browser()
             raise PageOneError(format_exc())
+
         self._stop_browser()
 
     # User-configurable methods.

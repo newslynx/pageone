@@ -16,7 +16,12 @@ class Tests(unittest.TestCase):
 
     def test_link_stats(self):
         """
-        TK: better tests, I'm just checking it runs for now:
+        TK: better tests, I'm just checking it runs various ways. for now:
         """
-        for link in pageone.get('https//www.propublica.org/', uniq=True):
-            print link
+        for link in pageone.get('https://www.propublica.org/', uniq=True):
+            assert('url' in link)
+
+        for link in pageone.get('https://www.npr.org', pattern=".*/article/.*", visible_only=True):
+            assert(link['visible'])
+
+
