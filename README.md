@@ -23,7 +23,7 @@ nosetests
 ```python
 import pageone
 
-for link in pageone.get('http://www.propublica.org/', pattern='.*articles.*'):
+for link in pageone.get('http://www.propublica.org/', pattern='.*article.*'):
     print link
 ```
 Here, `pattern` represents `regex` used to identify which urls are artilces. If `newslynx` is installed and `pattern` is not provided, it will default to using [`newslynx.lib.url.is_article`](https://github.com/newslynx/newslynx-core/blob/master/newslynx/lib/url.py#L342), which uses a series of heuristics to determine whether a url is an article.
@@ -54,7 +54,7 @@ Here `bucket` variables represent where a link falls in 200x200 pixel grid.  For
 ```python
 import pageone
 
-for link in pageone.get('http://www.propublica.org/', bucket_pixels = 100):
+for link in pageone.get('http://www.propublica.org/', bucket_pixels = 100, pattern='.*article.*'):
     print link
 ```
 
@@ -64,6 +64,6 @@ for link in pageone.get('http://www.propublica.org/', bucket_pixels = 100):
 ```python
 import pageone
 
-for link in pageone.get('http://www.propublica.org/', pattern='.*articles.*', phantom_path="/usr/bin/phantomjs"):
+for link in pageone.get('http://www.propublica.org/', pattern='.*article.*', phantom_path="/usr/bin/phantomjs"):
     print link
 ```
