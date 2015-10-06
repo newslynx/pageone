@@ -3,6 +3,9 @@ python:
   - "2.6"
   - "2.7"
 # command to install dependencies
+before_install:
+  - "apt-get install phantomjs"
+
 install:
   - "pip install ."
   - "pip install -r requirements.txt"
