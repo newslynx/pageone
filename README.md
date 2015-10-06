@@ -5,14 +5,14 @@ _a module for polling urls and stats from homepages_
 
 ## Install
 ```bash
-pip install pageone
+$ pip install pageone
 ```
 
 ## Test
 Requires `nose`
 
 ```bash
-nosetests
+$ nosetests
 ```
 
 ## Usage
