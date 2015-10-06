@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 # setup
 setup(
     name='pageone',
-    version='0.2.0',
+    version='0.2.1',
     description='a module for polling urls and stats from homepages',
     long_description='',
     classifiers=[

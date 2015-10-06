@@ -142,7 +142,7 @@ class PageOne:
         Start Phantom.
         """
         # open browser
-        default = os.getenv('PAGEONE_PHANTOM_PATH', "/usr/local/bin/phantomjs")
+        default = os.getenv('PAGEONE_PHANTOM_PATH', "/usr/bin/phantomjs")
         self.b = webdriver.PhantomJS(
             kw.get('phantom_path', default)
         )

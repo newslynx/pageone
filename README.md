@@ -59,7 +59,7 @@ for link in pageone.get('http://www.propublica.org/', bucket_pixels = 100, patte
 ```
 
 ## PhantomJS
-`pageone` requires [phantomjs](http://phantomjs.org/) to run `pageone.get()`.  `pageone` defaults to looking for `phantomjs` in `/usr/bin/local/phantomjs`, but if you want to specify another path, pass in `phantom_path` to `pageone.get`:
+`pageone` requires [phantomjs](http://phantomjs.org/) to run `pageone.get()`.  `pageone` defaults to looking for `phantomjs` in `/usr/bin/phantomjs`, but if you want to specify another path, pass in `phantom_path` to `pageone.get`:
 
 ```python
 import pageone
