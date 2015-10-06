@@ -1,6 +1,2 @@
-lxml==3.3.5
-requests==2.3.0
-selenium==2.42.1
-siegfried==0.0.7
-tldextract==1.4
+selenium==2.47.3
 wsgiref==0.1.2
