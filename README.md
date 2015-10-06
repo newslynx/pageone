@@ -18,94 +18,52 @@ nosetests
 ## Usage
 `pageone` does two things: extract article urls from a site's homepage and also uses `selenium` and `phantomjs` to find the relative positions of these urls.
 
-To get stats about the positions of links, use `link_stats`:
+`pageone` provides a single interface:
 
 ```python
-from pageone import PageOne
+import pageone
 
-p = PageOne(url='http://www.propublica.org/')
-
-# get stats about links positions
-for link in p.link_stats():
+for link in pageone.get('http://www.propublica.org/', pattern='.*articles.*'):
     print link
 ```
+Here, `pattern` represents `regex` used to identify which urls are artilces. If `newslynx` is installed and `pattern` is not provided, it will default to using [`newslynx.lib.url.is_article`](https://github.com/newslynx/newslynx-core/blob/master/newslynx/lib/url.py#L342), which uses a series of heuristics to determine whether a url is an article.
 
-This will return a list of dictionaries that look like this:
+All methods will return a list of dictionaries that look like this:
 
 ```python
 {
- 'bucket': 4,
- 'datetime': datetime.datetime(2014, 6, 7, 16, 6, 3, 533818),
- 'font_size': 13,
- 'has_img': 1,
- 'headline': u'',
- 'homepage': 'http://www.propublica.org/',
- 'img_area': 3969,
- 'img_height': 63,
- 'img_src': u'http://www.propublica.org/images/ngen/gypsy_image_medium/mpmh_victory_drive_140x140_130514_1.jpg',
- 'img_width': 63,
- 'url': u'http://www.propublica.org/article/protect-service-members-defense-department-plans-broad-ban-high-cost-loans',
+ 'bucket': 8,
+ 'bucket_size': 200,
+ 'datetime': datetime.datetime(2015, 10, 6, 20, 21, 22, 422478),
+ 'domain': 'www.propublica.org',
+ 'font_size': 14,
+ 'n_links': 1,
+ 'page': 'http://www.propublica.org/',
+ 'text': u'The Stories of Everyday Lives, Hidden in Reams of Data',
+ 'url': u'https://www.propublica.org/nerds/item/the-stories-of-everyday-lives-hidden-in-reams-of-data/',
+ 'visible': True,
  'x': 61,
  'x_bucket': 1,
- 'y': 730,
- 'y_bucket': 4
+ 'y': 1578,
+ 'y_bucket': 8
 }
 ```
 
-Here `bucket` variables represent where a link falls in 200x200 pixel grid.  For `x_bucket` this number moves from left-to-right. For `y_bucket`, it moves top-to-bottom.  `bucket` moves from top-left to bottom right.  You can customize the size of this grid by passing in `bucket_pixels` to `link_stats`, eg:
+Here `bucket` variables represent where a link falls in 200x200 pixel grid.  For `x_bucket` this number moves from left-to-right. For `y_bucket`, it moves top-to-bottom.  `bucket` moves from top-left to bottom right.  You can customize the size of this grid by passing in `bucket_pixels` to `get`, eg:
 
 ```python
-from pageone import PageOne
+import pageone
 
-p = PageOne(url='http://www.propublica.org/')
-
-# get stats about links positions
-for link in p.link_stats(bucket_pixels = 100):
+for link in pageone.get('http://www.propublica.org/', bucket_pixels = 100):
     print link
-
-```
-
-To get simply get all of the article urls on a homepage, use `articles`:
-
-```python
-from pageone import PageOne
-p = PageOne(url='http://www.propublica.org/')
-
-for article in p.articles():
-  print article
-```
-
-If you want to get article urls from other sites, use `incl_external`:
-
-```python
-from pageone import PageOne
-p = PageOne(url='http://www.propublica.org/')
-
-for article in p.articles(incl_external=True):
-  print article
-```
-
-## How do I know which urls are articles?
-`pageone` uses [siegfried](http://github.com/newslynx/siegfried) for url parsing and validation.  If you want to apply a custom regex for article url validation, you can pass in a pattern to either `link_stats` or `articles`, eg:
-
-```python
-from pageone import PageOne
-import re 
-
-pattern = re.compile(r'.*propublica.org/[a-z]+/[a-z0-9/-]+')
-
-p = PageOne(url='http://www.propublica.org/')
-
-for article in p.articles(pattern=pattern):
-  print article
 ```
 
 ## PhantomJS
-`pageone` requires [phantomjs](http://phantomjs.org/) to run `link_stats`.  `pageone` defaults to looking for `phantomjs` in `/usr/bin/local/phantomjs`, but if you want to specify another path, pass in `phantom_path` to `linkstats`:
-```python
-from pageone import PageOne
+`pageone` requires [phantomjs](http://phantomjs.org/) to run `pageone.get()`.  `pageone` defaults to looking for `phantomjs` in `/usr/bin/local/phantomjs`, but if you want to specify another path, pass in `phantom_path` to `pageone.get`:
 
-p = PageOne(url='http://www.propublica.org/')
-for link in p.link_stats(phantom_path="/usr/bin/phantomjs"):
+```python
+import pageone
+
+for link in pageone.get('http://www.propublica.org/', pattern='.*articles.*', phantom_path="/usr/bin/phantomjs"):
     print link
 ```

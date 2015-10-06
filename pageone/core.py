@@ -22,6 +22,12 @@ from selenium.common.exceptions import (
 
 from .exc import PageOneError
 
+try:
+    from newslynx.lib.url import is_article
+    NEWSLYNX_IMPORTED = True
+except:
+    NEWSLYNX_IMPORTED = False
+
 KEEP_PARAMS = ('id', 'p', 'v')
 
 RE_TYPE = type(re.compile(r''))
@@ -94,14 +100,16 @@ class PageOne:
         Overridable function for testing whether an article
         leads to a url.
         """
-        print u
         if not u:
             return False
         p = kw.get('pattern', None)
         if not p:
-            raise PageOneError(
-                'A "pattern" is required to identify '
-                'which link urls point to articles.')
+            if NEWSLYNX_IMPORTED:
+                return is_article(u)
+            else:
+                raise PageOneError(
+                    'If newslynx is not imported, A "pattern" is required to identify '
+                    'which link urls point to articles.')
         if not isinstance(p, RE_TYPE):
             p = re.compile(p)
         return p.search(u) is not None
