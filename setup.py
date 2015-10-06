@@ -23,7 +23,7 @@ setup(
     include_package_data=False,
     zip_safe=False,
     install_requires=[
-        "selenium==2.46.0"
+        "selenium==2.47.3"
     ],
     tests_require=['nose']
 )
