@@ -8,7 +8,7 @@ _a module for polling urls and stats from homepages_
 $ pip install pageone
 ```
 
-## Test
+## Tests
 Requires `nose`
 
 ```bash
