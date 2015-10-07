@@ -7,7 +7,6 @@ FIXTURES_DIR = os.path.join(TEST_DIR, 'fixtures')
 
 p = r'(.*projects\.propublica\.org/.*)|(.*/article/.*)'
 
-
 class Tests(unittest.TestCase):
 
     def test_link_stats(self):
